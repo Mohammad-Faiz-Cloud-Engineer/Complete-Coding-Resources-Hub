@@ -6,7 +6,7 @@ const resources = [
         category: "cs",
         icon: "book-open",
         description: "Master Data Structures & Algorithms with comprehensive notes and structured learning plans.",
-        pdfs: "4 PDFs",
+        pdfs: "5 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-dsa"
     },
@@ -16,7 +16,7 @@ const resources = [
         category: "programming",
         icon: "code",
         description: "Complete Python from basics to advanced with 30-day learning plan and eBooks.",
-        pdfs: "6 PDFs",
+        pdfs: "9 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-python"
     },
@@ -26,7 +26,7 @@ const resources = [
         category: "programming",
         icon: "coffee",
         description: "Comprehensive Java programming with 45-day roadmap and handwritten notes.",
-        pdfs: "3 PDFs",
+        pdfs: "5 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-java"
     },
@@ -36,7 +36,7 @@ const resources = [
         category: "cs",
         icon: "database",
         description: "Complete DBMS concepts, SQL queries, operators, and database design.",
-        pdfs: "4 PDFs",
+        pdfs: "8 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-sql"
     },
@@ -56,7 +56,7 @@ const resources = [
         category: "web",
         icon: "globe",
         description: "HTML deep dive notes and 45-day web development learning plan.",
-        pdfs: "3 PDFs",
+        pdfs: "10 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-webdev"
     },
@@ -66,7 +66,7 @@ const resources = [
         category: "web",
         icon: "file-text",
         description: "Handwritten notes and easiest explanations for JavaScript mastery.",
-        pdfs: "2 PDFs",
+        pdfs: "4 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-javascript"
     },
@@ -96,7 +96,7 @@ const resources = [
         category: "programming",
         icon: "cpu",
         description: "EBook, handwritten notes, and complete C++ roadmap.",
-        pdfs: "3 PDFs",
+        pdfs: "4 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-cpp"
     },
@@ -106,7 +106,7 @@ const resources = [
         category: "programming",
         icon: "terminal",
         description: "C programming fundamentals with handwritten notes.",
-        pdfs: "1 PDF",
+        pdfs: "4 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-c"
     },
@@ -156,7 +156,7 @@ const resources = [
         category: "specialized",
         icon: "smartphone",
         description: "Android development short notes and essentials.",
-        pdfs: "1 PDF",
+        pdfs: "3 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android"
     },
@@ -166,7 +166,7 @@ const resources = [
         category: "programming",
         icon: "layers",
         description: "PHP programming notes for web development.",
-        pdfs: "1 PDF",
+        pdfs: "2 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-php"
     },
