@@ -20,160 +20,84 @@ This repository is a carefully curated collection of high-quality educational ma
 - **Mobile Development** - Android development short notes
 - **Resume Building** - ATS-friendly resume templates
 
-## Repository Structure
-
-```
-Complete-Coding-Resources-Hub/
-│
-├── 📂 Android Development/
-│   └── Android Development Short Notes.pdf
-│
-├── 📂 C/
-│   └── C Handwritten Notes.pdf
-│
-├── 📂 C++/
-│   ├── C++ EBook Notes By Yadnyesh.pdf
-│   ├── C++ Handwritten Notes.pdf
-│   └── C++ Roadmap.pdf
-│
-├── 📂 Computer Networking/
-│   ├── All Common Differences in Computer Network.pdf
-│   └── Computer Network Handwritten Notes.pdf
-│
-├── 📂 DSA/
-│   ├── 30 Days DSA Learning Plan.pdf
-│   ├── Complete DSA Handwritten Notes.pdf
-│   ├── DSA Final.pdf
-│   └── DSA Notes.pdf
-│
-├── 📂 Interview/
-│   ├── All Programming Interview QNA.pdf
-│   └── TCS NQT Questions for Fresher.pdf
-│
-├── 📂 Java/
-│   ├── 45 Days Java Learning Plan.pdf
-│   ├── Complete Java Handwritten Notes.pdf
-│   └── Java Roadmap - 45 Days learning plan.pdf
-│
-├── 📂 JavaScript/
-│   ├── JavaScript Handwritten Notes.pdf
-│   └── JavaScript Notes (Easiest Explanation).pdf
-│
-├── 📂 Machine Learning/
-│   └── Complete Machine Learning Handwritten Notes.pdf
-│
-├── 📂 NodeJS/
-│   └── Node.js Handwritten Notes.pdf
-│
-├── 📂 Oops/
-│   └── Differences in OOP.pdf
-│
-├── 📂 Operating System/
-│   └── Operating System Handwritten Notes.pdf
-│
-├── 📂 PHP/
-│   └── Php notes.pdf
-│
-├── 📂 Python/
-│   ├── 30 Days Python Learning Plan.pdf
-│   ├── Complete Python Handwritten Notes.pdf
-│   ├── HandWritten Easiest Python Notes.pdf
-│   ├── Python EBook Notes By Yadnyesh!.pdf
-│   ├── Python Ebook Final.pdf
-│   └── Python Notes.pdf
-│
-├── 📂 ReactJS/
-│   └── React.js.pdf
-│
-├── 📂 Resume/
-│   └── ATS Friendly Resume Template.pdf
-│
-├── 📂 SQL/
-│   ├── All SQL Queries.pdf
-│   ├── DBMS Handwritten Notes!.pdf
-│   ├── SQL Handwritten Notes.pdf
-│   └── SQL Operators.pdf
-│
-└── 📂 Web Dev/
-    ├── HTML Deep Dive Notes by Yadnyesh.pdf
-    ├── HTML Handwritten Notes.pdf
-    └── Web Development 45 Days Learning Plan.pdf
-```
+> 💡 **All materials are available as downloadable PDFs through GitHub Releases** - No files stored in the repository!
 
 ## Download Resources
 
-All PDF materials are available for free download via **GitHub Releases**. Choose from individual topic downloads or get the complete collection.
+All PDF materials are available for free download via **GitHub Releases**. Each topic has its own release - download only what you need!
 
 ### Quick Access Downloads
 
-| Category | Description | Download Link |
-|----------|-------------|---------------|
-| **DSA Complete Pack** | All Data Structures & Algorithms notes + 30-day plan | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
-| **Python Bundle** | Complete Python notes, ebooks, and 30-day learning plan | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
-| **Java Bundle** | Java handwritten notes, roadmap, and 45-day plan | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
-| **Web Development Pack** | HTML, CSS, JavaScript, ReactJS, NodeJS complete notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
-| **Database & SQL Pack** | DBMS, SQL queries, operators, and handwritten notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
-| **Interview Preparation** | All programming QnA + TCS NQT questions | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
-| **Complete Collection** | All resources in one ZIP file | [Download All](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest) |
+| Topic | Files | Download Link |
+|-------|-------|---------------|
+| **DSA Complete Pack** | 4 PDFs - Learning plans & handwritten notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-dsa) |
+| **Python Bundle** | 6 PDFs - Complete notes, ebooks & 30-day plan | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-python) |
+| **Java Bundle** | 3 PDFs - Handwritten notes, roadmap & 45-day plan | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-java) |
+| **SQL & Database** | 4 PDFs - DBMS, SQL queries & operators | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-sql) |
+| **Interview Prep** | 2 PDFs - Programming QnA + TCS NQT questions | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-interview) |
+| **Web Development** | 3 PDFs - HTML notes & 45-day learning plan | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-webdev) |
+| **JavaScript** | 2 PDFs - Handwritten notes & easy explanations | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-javascript) |
+| **ReactJS** | 1 PDF - Complete React.js guide | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-react) |
+| **NodeJS** | 1 PDF - Node.js handwritten notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-nodejs) |
+| **C++ Programming** | 3 PDFs - EBook, handwritten notes & roadmap | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-cpp) |
+| **C Programming** | 1 PDF - C handwritten notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-c) |
+| **Operating System** | 1 PDF - OS handwritten notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-os) |
+| **Computer Networking** | 2 PDFs - Network notes & common differences | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-networking) |
+| **OOP Concepts** | 1 PDF - Differences in OOP | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-oop) |
+| **Machine Learning** | 1 PDF - Complete ML handwritten notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-ml) |
+| **Android Development** | 1 PDF - Android short notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android) |
+| **PHP Programming** | 1 PDF - PHP notes | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-php) |
+| **Resume Template** | 1 PDF - ATS friendly resume | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-resume) |
 
-### Individual Topic Downloads
+> 💡 **Tip:** Click "[View all releases](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases)" to see all available downloads in one place!
+
+### 📦 Browse by Category
 
 <details>
 <summary><b>Programming Languages</b></summary>
 
-- **C Programming** - [C Handwritten Notes.pdf](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **C++ Programming** - [C++ Complete Bundle](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-  - C++ EBook Notes By Yadnyesh
-  - C++ Handwritten Notes
-  - C++ Roadmap
-- **Python** - [Python Complete Bundle](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-  - 30 Days Python Learning Plan
-  - Complete Python Handwritten Notes
-  - Python EBook Notes By Yadnyesh
-  - HandWritten Easiest Python Notes
-- **Java** - [Java Complete Bundle](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-  - 45 Days Java Learning Plan
-  - Complete Java Handwritten Notes
-  - Java Roadmap
-- **JavaScript** - [JavaScript Notes Bundle](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **PHP** - [PHP Notes.pdf](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
+- **[C Programming](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-c)** - C Handwritten Notes
+- **[C++ Programming](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-cpp)** - EBook, Handwritten Notes, Roadmap
+- **[Python](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-python)** - 30 Days Plan, Complete Notes, eBooks
+- **[Java](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-java)** - 45 Days Plan, Complete Notes, Roadmap
+- **[JavaScript](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-javascript)** - Handwritten Notes, Easy Explanations
+- **[PHP](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-php)** - PHP Programming Notes
 
 </details>
 
 <details>
 <summary><b>Web Development</b></summary>
 
-- **HTML** - [HTML Deep Dive Notes by Yadnyesh](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **ReactJS** - [React.js Complete Notes](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **NodeJS** - [Node.js Handwritten Notes](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **Web Dev Roadmap** - [45 Days Learning Plan](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
+- **[Web Development](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-webdev)** - HTML Deep Dive, 45 Days Plan
+- **[ReactJS](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-react)** - Complete React.js Guide
+- **[NodeJS](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-nodejs)** - Node.js Handwritten Notes
 
 </details>
 
 <details>
 <summary><b>Computer Science Fundamentals</b></summary>
 
-- **Data Structures & Algorithms** - [DSA Complete Pack](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **Operating Systems** - [OS Handwritten Notes](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **Computer Networks** - [Networking Complete Notes](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **DBMS & SQL** - [Database Complete Bundle](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **OOP Concepts** - [Differences in OOP](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
+- **[Data Structures & Algorithms](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-dsa)** - 30 Days Plan, Complete Notes
+- **[Operating Systems](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-os)** - OS Handwritten Notes
+- **[Computer Networks](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-networking)** - Networking Complete Notes
+- **[Database & SQL](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-sql)** - DBMS, SQL Queries, Operators
+- **[OOP Concepts](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-oop)** - Differences in OOP
 
 </details>
 
 <details>
 <summary><b>Specialized Topics</b></summary>
 
-- **Machine Learning** - [Complete ML Handwritten Notes](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **Android Development** - [Android Short Notes](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **Interview Preparation** - [Complete Interview Pack](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
-- **Resume Template** - [ATS Friendly Resume](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/latest)
+- **[Machine Learning](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-ml)** - Complete ML Handwritten Notes
+- **[Android Development](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android)** - Android Short Notes
+- **[Interview Preparation](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-interview)** - Programming QnA, TCS NQT
+- **[Resume Template](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-resume)** - ATS Friendly Resume
 
 </details>
 
 ---
 
-## How to Use This Repository
+## 📖 How to Use This Repository
 
 1. **Download Resources** - Click on the download links above to get PDFs
 2. **Browse by Topic** - Use the collapsible sections to find specific materials
@@ -195,9 +119,9 @@ This repository includes structured learning roadmaps to help you master technol
 
 ### For Beginners
 1. Start with **C/C++ Handwritten Notes** for programming fundamentals
-2. Move to **DSA** folder and follow the 30-day learning plan
+2. Move to **DSA** and follow the 30-day learning plan
 3. Pick a language (Python/Java) and follow its structured roadmap
-4. Practice with **Interview** folder materials
+4. Practice with **Interview** materials
 
 ### For Interview Preparation
 1. Review **Complete DSA Handwritten Notes**
@@ -242,7 +166,7 @@ We plan to expand this repository with:
 - DevOps and CI/CD materials
 - Microservices architecture guides
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are highly encouraged! Here's how you can help:
 
@@ -267,7 +191,7 @@ Contributions are highly encouraged! Here's how you can help:
 - Maintain consistent file naming conventions
 - Include brief descriptions for new additions
 
-## License
+## ⚖️ License
 
 This repository is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -284,13 +208,13 @@ This repository is licensed under the MIT License - see the [LICENSE](LICENSE) f
 **Get in Touch:**
 - Report issues: [Open an Issue](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/issues)
 - Suggest features: [Create a Feature Request](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/issues/new)
-- Contribute: [Submit a Pull Request](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/pulls)
+- 🤝 Contribute: [Submit a Pull Request](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/pulls)
 
-## Show Your Support
+## ⭐ Show Your Support
 
 If you find this repository helpful:
 - ⭐ Star this repository to help others discover it
-- 🔄 Share it with your friends and colleagues
+- Share it with your friends and colleagues
 - 🤝 Contribute by adding more resources
 - Spread the word on social media
 
@@ -301,7 +225,7 @@ If you find this repository helpful:
 ![GitHub last commit](https://img.shields.io/github/last-commit/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub)
 ![GitHub issues](https://img.shields.io/github/issues/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub)
 
-## Why This Repository?
+## 🌟 Why This Repository?
 
 - **Comprehensive Coverage** - From basics to advanced topics
 - **Structured Learning** - Follow proven learning paths
