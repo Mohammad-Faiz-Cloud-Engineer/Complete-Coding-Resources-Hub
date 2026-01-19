@@ -5,6 +5,9 @@
 [![GitHub Stars](https://img.shields.io/github/stars/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub?style=social)](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Website](https://img.shields.io/badge/Website-Live-brightgreen)](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
+
+**Live Website:** [https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
 
 ## What's Inside
 
@@ -22,9 +25,13 @@ This repository is a carefully curated collection of high-quality educational ma
 
 **IMPORTANT:** Each release includes not only comprehensive PDF notes but also carefully selected video courses and tutorials. These curated video resources complement the written materials and provide visual learning opportunities for better understanding.
 
+**Explore the Website:** Visit our [interactive website](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/) to browse all resources with filtering and search capabilities.
+
 > All materials are available as downloadable PDFs through GitHub Releases - No files stored in the repository!
 
 ## Download Resources
+
+**Quick Access:** Visit our [website](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/) for an interactive browsing experience with filtering and search.
 
 All PDF materials are available for free download via **GitHub Releases**. Each topic has its own release - download only what you need!
 
@@ -107,13 +114,14 @@ All PDF materials are available for free download via **GitHub Releases**. Each 
 
 ## How to Use This Repository
 
-1. **Download Resources** - Click on the download links above to get PDFs and video course links
-2. **Browse by Topic** - Use the collapsible sections to find specific materials
-3. **Follow Learning Plans** - Start with 30/45-day structured roadmaps
-4. **Watch Video Courses** - Each release includes curated video tutorials for visual learning
-5. **Quick Reference** - Keep handwritten notes handy for quick revision
-6. **Interview Prep** - Review interview materials before technical rounds
-7. **Offline Access** - All materials are in PDF format for offline study
+1. **Visit the Website** - Browse resources interactively at [our website](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
+2. **Download Resources** - Click on the download links to get PDFs and video course links
+3. **Browse by Topic** - Use the collapsible sections or website filters to find specific materials
+4. **Follow Learning Plans** - Start with 30/45-day structured roadmaps
+5. **Watch Video Courses** - Each release includes curated video tutorials for visual learning
+6. **Quick Reference** - Keep handwritten notes handy for quick revision
+7. **Interview Prep** - Review interview materials before technical rounds
+8. **Offline Access** - All materials are in PDF format for offline study
 
 ## Featured Learning Plans
 
@@ -228,6 +236,8 @@ This repository is licensed under the MIT License - see the [LICENSE](LICENSE) f
 
 **Repository Maintainer:** Mohammad Faiz
 
+**Website:** [https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
+
 **Get in Touch:**
 - Report issues: [Open an Issue](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/issues)
 - Suggest features: [Create a Feature Request](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/issues/new)
@@ -251,6 +261,7 @@ If you find this repository helpful:
 ## Why This Repository?
 
 - **Comprehensive Coverage** - From basics to advanced topics
+- **Interactive Website** - Browse and search resources easily
 - **Structured Learning** - Follow proven learning paths
 - **Video Courses Included** - Visual learning with curated video tutorials
 - **Interview Ready** - Focused materials for technical interviews
@@ -266,6 +277,8 @@ If you find this repository helpful:
 **Happy Learning!**
 
 *Empowering developers worldwide, one resource at a time*
+
+**Website:** [https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
 
 **Last Updated:** January 2026
 
