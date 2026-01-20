@@ -190,10 +190,17 @@ const filterTabs = document.querySelectorAll('.filter-tab');
 const searchInput = document.getElementById('searchInput');
 const resourcesGrid = document.getElementById('resourcesGrid');
 
-// Mobile Menu Toggle
+// Hamburger menu with smooth animation
 hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('active');
     hamburger.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (navMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
 });
 
 // Close mobile menu when clicking on a link
@@ -201,10 +208,11 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
         hamburger.classList.remove('active');
+        document.body.style.overflow = '';
     });
 });
 
-// Smooth Scrolling
+// Smooth Scrolling with offset for fixed navbar
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -220,9 +228,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Navbar Scroll Effect
+const navbar = document.querySelector('.navbar');
+
 window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 50) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
@@ -232,7 +243,6 @@ window.addEventListener('scroll', () => {
     let current = '';
     document.querySelectorAll('section').forEach(section => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
         if (window.scrollY >= (sectionTop - 100)) {
             current = section.getAttribute('id');
         }
@@ -244,7 +254,7 @@ window.addEventListener('scroll', () => {
             link.classList.add('active');
         }
     });
-});
+}, { passive: true });
 
 // Create Resource Card
 function createResourceCard(resource) {
@@ -269,16 +279,16 @@ function createResourceCard(resource) {
                 <span><i data-feather="book" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${resource.pdfs}</span>
                 <span><i data-feather="video" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${resource.videos}</span>
             </div>
-            <a href="${resource.link}" target="_blank" class="resource-link">Download Resources</a>
+            <a href="${resource.link}" target="_blank" rel="noopener noreferrer" class="resource-link">Download Resources</a>
         </div>
     `;
 }
 
-// Display Resources
+// Display Resources with premium animations
 function displayResources(resourcesToDisplay) {
     if (resourcesToDisplay.length === 0) {
         resourcesGrid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);">
                 <h3 style="color: var(--text-secondary); font-size: 1.5rem;">No resources found</h3>
                 <p style="color: var(--text-light); margin-top: 1rem;">Try adjusting your search or filter</p>
             </div>
@@ -292,9 +302,23 @@ function displayResources(resourcesToDisplay) {
     if (typeof feather !== 'undefined') {
         feather.replace();
     }
+
+    // Animate new resource cards with premium staggered effect
+    const resourceCards = document.querySelectorAll('.resource-card');
+    resourceCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px) scale(0.95)';
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                card.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s`;
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0) scale(1)';
+            }, 10);
+        });
+    });
 }
 
-// Filter Resources
+// Filter Resources with premium smooth animations
 let currentCategory = 'all';
 let currentSearchTerm = '';
 
@@ -314,7 +338,21 @@ function filterResources() {
         );
     }
 
-    displayResources(filtered);
+    // Fade out current cards before displaying new ones
+    const existingCards = document.querySelectorAll('.resource-card');
+    if (existingCards.length > 0) {
+        existingCards.forEach((card, index) => {
+            card.style.transition = `opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.02}s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.02}s`;
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(-10px) scale(0.98)';
+        });
+        
+        setTimeout(() => {
+            displayResources(filtered);
+        }, 300);
+    } else {
+        displayResources(filtered);
+    }
 }
 
 // Filter Tab Click
@@ -327,10 +365,14 @@ filterTabs.forEach(tab => {
     });
 });
 
-// Search Input
+// Search Input with debounce
+let searchTimeout;
 searchInput.addEventListener('input', (e) => {
-    currentSearchTerm = e.target.value;
-    filterResources();
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        currentSearchTerm = e.target.value;
+        filterResources();
+    }, 300);
 });
 
 // Intersection Observer for Animations
@@ -344,6 +386,7 @@ const observer = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
@@ -353,29 +396,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial display of resources
     displayResources(resources);
 
-    // Animate elements on scroll
-    const animateElements = document.querySelectorAll('.feature-card, .resource-card, .about-content');
-    animateElements.forEach(el => {
+    // Animate elements on scroll with stagger effect
+    const featureCards = document.querySelectorAll('.feature-card');
+    featureCards.forEach((el, index) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
         observer.observe(el);
     });
 });
 
 // Add loading animation
 window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
-    }, 100);
-});
+    document.body.style.opacity = '1';
+}, { once: true });
 
 // Scroll to top button (optional enhancement)
 const scrollToTopBtn = document.createElement('button');
 scrollToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
 scrollToTopBtn.className = 'scroll-to-top';
+scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
 scrollToTopBtn.style.cssText = `
     position: fixed;
     bottom: 30px;
@@ -389,9 +429,9 @@ scrollToTopBtn.style.cssText = `
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 999;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -399,15 +439,19 @@ scrollToTopBtn.style.cssText = `
 
 document.body.appendChild(scrollToTopBtn);
 
+let scrollTimeout;
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-        scrollToTopBtn.style.opacity = '1';
-        scrollToTopBtn.style.visibility = 'visible';
-    } else {
-        scrollToTopBtn.style.opacity = '0';
-        scrollToTopBtn.style.visibility = 'hidden';
-    }
-});
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        if (window.scrollY > 500) {
+            scrollToTopBtn.style.opacity = '1';
+            scrollToTopBtn.style.visibility = 'visible';
+        } else {
+            scrollToTopBtn.style.opacity = '0';
+            scrollToTopBtn.style.visibility = 'hidden';
+        }
+    }, 100);
+}, { passive: true });
 
 scrollToTopBtn.addEventListener('click', () => {
     window.scrollTo({
@@ -416,18 +460,24 @@ scrollToTopBtn.addEventListener('click', () => {
     });
 });
 
-// Add hover effect to resource cards
+// Add hover effect to resource cards with optimized performance
+let hoveredCard = null;
+
 document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('.resource-card')) {
-        e.target.closest('.resource-card').style.borderColor = 'var(--primary-color)';
+    const card = e.target.closest('.resource-card');
+    if (card && card !== hoveredCard) {
+        hoveredCard = card;
+        card.style.borderColor = 'var(--primary-light)';
     }
-});
+}, { passive: true });
 
 document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('.resource-card')) {
-        e.target.closest('.resource-card').style.borderColor = 'var(--border-color)';
+    const card = e.target.closest('.resource-card');
+    if (card && card === hoveredCard) {
+        card.style.borderColor = 'var(--border-color)';
+        hoveredCard = null;
     }
-});
+}, { passive: true });
 
 // Console message
 console.log('%cComplete Coding Resources Hub', 'color: #2563eb; font-size: 20px; font-weight: bold;');
