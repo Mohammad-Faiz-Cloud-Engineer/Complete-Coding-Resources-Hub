@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Complete Coding Resources Hub - Comprehensive programming notes, video courses, and learning materials">
     <meta name="keywords" content="programming, coding, tutorials, DSA, Python, Java, JavaScript, Web Development">
+    <meta name="theme-color" content="#2563eb">
     <title>Complete Coding Resources Hub</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="favicon.ico">
     
-    <link rel="stylesheet" href="styles.css">
+    <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
@@ -32,10 +39,10 @@
                 </div>
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link active">Home</a></li>
-                    <li><a href="#resources" class="nav-link">Resources</a></li>
                     <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#resources" class="nav-link">Resources</a></li>
                     <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub" target="_blank" class="btn-primary">GitHub</a></li>
+                    <li><a href="https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub" target="_blank" rel="noopener noreferrer" class="btn-primary">GitHub</a></li>
                 </ul>
                 <div class="hamburger" id="hamburger">
                     <span></span>
