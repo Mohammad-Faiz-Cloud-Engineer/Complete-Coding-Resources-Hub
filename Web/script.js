@@ -26,7 +26,7 @@ const resources = [
         category: "programming",
         icon: "coffee",
         description: "Comprehensive Java programming with 45-day roadmap and handwritten notes.",
-        pdfs: "5 PDFs",
+        pdfs: "6 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-java"
     },
