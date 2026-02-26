@@ -16,7 +16,7 @@ const resources = [
         category: "programming",
         icon: "code",
         description: "Complete Python from basics to advanced with 30-day learning plan and eBooks.",
-        pdfs: "9 PDFs",
+        pdfs: "10 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-python"
     },
