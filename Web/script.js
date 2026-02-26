@@ -46,7 +46,7 @@ const resources = [
         category: "specialized",
         icon: "briefcase",
         description: "Complete interview Q&A, TCS NQT questions, and preparation materials.",
-        pdfs: "2 PDFs",
+        pdfs: "3 PDFs",
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-interview"
     },
