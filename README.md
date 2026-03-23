@@ -20,6 +20,7 @@ This repository is a carefully curated collection of high-quality educational ma
 - **Interview Preparation** - Company-specific questions, TCS NQT prep, and programming QnA
 - **Computer Science Fundamentals** - Operating Systems, Computer Networks, OOP concepts
 - **Machine Learning** - Complete ML handwritten notes
+- **Large Language Models** - Comprehensive guide to LLMs, transformers, and AI language models
 - **Mobile Development** - Android development short notes
 - **Resume Building** - ATS-friendly resume templates
 
@@ -62,6 +63,7 @@ All PDF materials are available for free download via **GitHub Releases**. Each 
 | **Machine Learning** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-ml) |
 | **Android Development** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android) |
 | **PHP Programming** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-php) |
+| **Large Language Model** | Multiple PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-llm) |
 | **Resume Template** | 1 PDF + Career Resources | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-resume) |
 
 > **Note:** Click "[View all releases](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases)" to see all available downloads in one place!
@@ -104,6 +106,7 @@ All PDF materials are available for free download via **GitHub Releases**. Each 
 <summary><b>Specialized Topics</b></summary>
 
 - **[Machine Learning](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-ml)** - Complete ML Handwritten Notes + Video Courses
+- **[Large Language Model](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-llm)** - Comprehensive LLM Guide, Transformers, AI Models + Video Courses
 - **[Android Development](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android)** - Android Short Notes + Video Courses
 - **[Interview Preparation](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-interview)** - Programming QnA, TCS NQT + Video Courses
 - **[Resume Template](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-resume)** - ATS Friendly Resume + Career Resources
