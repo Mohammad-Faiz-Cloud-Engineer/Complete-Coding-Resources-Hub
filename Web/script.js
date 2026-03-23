@@ -179,6 +179,16 @@ const resources = [
         pdfs: "1 PDF",
         videos: "Career Resources",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-resume"
+    },
+    {
+        id: 19,
+        title: "Large Language Model",
+        category: "specialized",
+        icon: "message-circle",
+        description: "Comprehensive guide to LLMs, transformers, and AI language models.",
+        pdfs: "Multiple PDFs",
+        videos: "Video Courses",
+        link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-llm"
     }
 ];
 
