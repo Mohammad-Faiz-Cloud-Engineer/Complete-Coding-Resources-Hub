@@ -5,6 +5,17 @@ if (document.readyState === 'loading') {
     init();
 }
 
+// Hide page loader when everything is ready
+window.addEventListener('load', () => {
+    const loader = document.getElementById('pageLoader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+            setTimeout(() => loader.remove(), 500);
+        }, 300);
+    }
+});
+
 function init() {
     'use strict';
 
@@ -535,12 +546,31 @@ function init() {
         }, { passive: true });
     }
 
-    // Add initial load animation
-    document.body.style.opacity = '0';
+    // Animate sections on scroll
+    const animateOnScroll = () => {
+        const sections = document.querySelectorAll('.section-header');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        sections.forEach(section => observer.observe(section));
+    };
+
+    animateOnScroll();
+
+    // Remove initial page load animation styles
     setTimeout(() => {
-        document.body.style.transition = 'opacity 0.6s ease';
-        document.body.style.opacity = '1';
-    }, 100);
+        document.body.style.removeProperty('opacity');
+        document.body.style.removeProperty('transition');
+    }, 600);
 
     // Add copy link functionality to resource cards
     document.addEventListener('click', (e) => {
