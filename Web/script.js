@@ -307,13 +307,17 @@ function init() {
 
     function replaceFeatherIcons() {
         if (typeof window.feather === 'undefined') {
-            console.warn('Feather icons library not loaded');
+            console.warn('Feather icons library not loaded - using fallback');
+            // Add fallback class to show we're missing icons
+            document.body.classList.add('no-feather-icons');
             return;
         }
         try {
             window.feather.replace();
+            document.body.classList.remove('no-feather-icons');
         } catch (error) {
             console.error('Error replacing feather icons:', error);
+            document.body.classList.add('no-feather-icons');
         }
     }
 
@@ -321,6 +325,10 @@ function init() {
         if (resourcesToDisplay.length === 0) {
             resourcesGrid.innerHTML = `
                 <div class="resources-empty" role="status" aria-live="polite">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 1rem; opacity: 0.3;">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
                     <h3>No resources found</h3>
                     <p>Try adjusting your search or filter.</p>
                 </div>
@@ -343,6 +351,9 @@ function init() {
                 }, 10);
             });
         });
+
+        // Add ripple effect to cards
+        addRippleEffect();
     }
 
     let currentCategory = 'all';
@@ -387,14 +398,7 @@ function init() {
     });
 
     let searchTimeout;
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            const value = e.target && typeof e.target.value === 'string' ? e.target.value : '';
-            currentSearchTerm = value.trim();
-            filterResources();
-        }, 200);
-    });
+    const originalSearchHandler = searchInput.addEventListener;
 
     const observerOptions = {
         threshold: 0.1,
@@ -444,4 +448,162 @@ function init() {
     // Initialize resources on load
     replaceFeatherIcons();
     displayResources(resources);
+
+    // Add ripple effect to interactive elements
+    function addRippleEffect() {
+        const cards = document.querySelectorAll('.resource-card, .feature-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    }
+
+    // Add loading state to search
+    let searchLoadingTimeout;
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        clearTimeout(searchLoadingTimeout);
+        
+        // Show loading state
+        resourcesGrid.style.opacity = '0.5';
+        resourcesGrid.style.pointerEvents = 'none';
+        
+        searchTimeout = setTimeout(() => {
+            const value = e.target && typeof e.target.value === 'string' ? e.target.value : '';
+            currentSearchTerm = value.trim();
+            filterResources();
+            
+            // Remove loading state
+            searchLoadingTimeout = setTimeout(() => {
+                resourcesGrid.style.opacity = '1';
+                resourcesGrid.style.pointerEvents = 'auto';
+            }, 100);
+        }, 300);
+    });
+
+    // Add smooth scroll progress indicator
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (window.scrollY / windowHeight) * 100;
+        progressBar.style.width = scrolled + '%';
+    }, { passive: true });
+
+    // Add parallax effect to hero using CSS transform (better performance)
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.scrollY;
+                    if (scrolled < 800) {
+                        // Use CSS custom property instead of direct style manipulation
+                        hero.style.setProperty('--scroll-offset', scrolled * 0.5);
+                        hero.style.setProperty('--scroll-opacity', 1 - (scrolled / 800));
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    }
+
+    // Add initial load animation
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.6s ease';
+        document.body.style.opacity = '1';
+    }, 100);
+
+    // Toast notification system
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                ${type === 'success' ? '<polyline points="20 6 9 17 4 12"></polyline>' : 
+                  type === 'error' ? '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>' :
+                  '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'}
+            </svg>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Add copy link functionality to resource cards
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.resource-card')) {
+            const card = e.target.closest('.resource-card');
+            const link = card.querySelector('.resource-link');
+            if (link && e.target !== link && !e.target.closest('.resource-link')) {
+                // Optional: Add visual feedback when clicking card
+                card.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 100);
+            }
+        }
+    });
+
+    // Add keyboard navigation for filter tabs
+    filterTabs.forEach((tab, index) => {
+        tab.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const nextTab = filterTabs[index + 1] || filterTabs[0];
+                nextTab.focus();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const prevTab = filterTabs[index - 1] || filterTabs[filterTabs.length - 1];
+                prevTab.focus();
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                tab.click();
+            }
+        });
+    });
+
+    // Add search clear button
+    const searchClearBtn = document.createElement('button');
+    searchClearBtn.className = 'search-clear';
+    searchClearBtn.innerHTML = '×';
+    searchClearBtn.setAttribute('aria-label', 'Clear search');
+    searchClearBtn.style.display = 'none';
+    searchInput.parentElement.appendChild(searchClearBtn);
+
+    searchInput.addEventListener('input', () => {
+        searchClearBtn.style.display = searchInput.value ? 'flex' : 'none';
+    });
+
+    searchClearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        currentSearchTerm = '';
+        searchClearBtn.style.display = 'none';
+        filterResources();
+        searchInput.focus();
+    });
 }
