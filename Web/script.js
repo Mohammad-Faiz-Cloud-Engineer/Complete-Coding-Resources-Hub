@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
+                await deferredPrompt.userChoice;
                 deferredPrompt = null;
                 installBanner.classList.remove('show');
             }
