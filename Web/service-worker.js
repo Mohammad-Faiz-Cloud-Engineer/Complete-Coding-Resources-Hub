@@ -15,16 +15,12 @@ const STATIC_ASSETS = [
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker...');
-  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[SW] Caching static assets');
         return cache.addAll(STATIC_ASSETS);
       })
       .then(() => {
-        console.log('[SW] Skip waiting');
         return self.skipWaiting();
       })
   );
@@ -32,8 +28,6 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker...');
-  
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
@@ -45,13 +39,11 @@ self.addEventListener('activate', (event) => {
                      cacheName.startsWith('runtime-') && cacheName !== RUNTIME_CACHE;
             })
             .map((cacheName) => {
-              console.log('[SW] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             })
         );
       })
       .then(() => {
-        console.log('[SW] Claiming clients');
         return self.clients.claim();
       })
   );
@@ -87,7 +79,6 @@ self.addEventListener('fetch', (event) => {
         return caches.match(request)
           .then((cachedResponse) => {
             if (cachedResponse) {
-              console.log('[SW] Serving from cache:', request.url);
               return cachedResponse;
             }
             
@@ -108,12 +99,10 @@ self.addEventListener('fetch', (event) => {
 // Listen for messages from clients
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
-    console.log('[SW] Skip waiting requested');
     self.skipWaiting();
   }
   
   if (event.data && event.data.type === 'CLEAR_CACHE') {
-    console.log('[SW] Clearing all caches');
     event.waitUntil(
       caches.keys().then((cacheNames) => {
         return Promise.all(
@@ -122,14 +111,4 @@ self.addEventListener('message', (event) => {
       })
     );
   }
-});
-
-// Background sync for offline actions (future enhancement)
-self.addEventListener('sync', (event) => {
-  console.log('[SW] Background sync:', event.tag);
-});
-
-// Push notifications (future enhancement)
-self.addEventListener('push', (event) => {
-  console.log('[SW] Push notification received');
 });
