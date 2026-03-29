@@ -1,5 +1,14 @@
-// Resources Data
-const resources = [
+// Wait for DOM to be fully loaded before executing
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
+
+function init() {
+    'use strict';
+
+    const resources = [
     {
         id: 1,
         title: "DSA Complete Pack",
@@ -190,223 +199,218 @@ const resources = [
         videos: "Video Courses",
         link: "https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-llm"
     }
-];
+    ];
 
-// DOM Elements
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('navMenu');
-const navLinks = document.querySelectorAll('.nav-link');
-const filterTabs = document.querySelectorAll('.filter-tab');
-const searchInput = document.getElementById('searchInput');
-const resourcesGrid = document.getElementById('resourcesGrid');
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const searchInput = document.getElementById('searchInput');
+    const resourcesGrid = document.getElementById('resourcesGrid');
+    const navbar = document.querySelector('.navbar');
 
-// Hamburger menu with smooth animation
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-    
-    // Prevent body scroll when menu is open
-    if (navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-});
-
-// Close mobile menu when clicking on a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-});
-
-// Smooth Scrolling with offset for fixed navbar
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Navbar Scroll Effect
-const navbar = document.querySelector('.navbar');
-
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-
-    // Update active nav link based on scroll position
-    let current = '';
-    document.querySelectorAll('section').forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= (sectionTop - 100)) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-}, { passive: true });
-
-// Create Resource Card
-function createResourceCard(resource) {
-    const categoryNames = {
-        'programming': 'Programming',
-        'web': 'Web Development',
-        'cs': 'CS Fundamentals',
-        'specialized': 'Specialized'
-    };
-
-    return `
-        <div class="resource-card" data-category="${resource.category}">
-            <div class="resource-header">
-                <div class="resource-icon">
-                    <i data-feather="${resource.icon}"></i>
-                </div>
-                <h3 class="resource-title">${resource.title}</h3>
-            </div>
-            <div class="resource-category">${categoryNames[resource.category]}</div>
-            <p class="resource-description">${resource.description}</p>
-            <div class="resource-meta">
-                <span><i data-feather="book" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${resource.pdfs}</span>
-                <span><i data-feather="video" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${resource.videos}</span>
-            </div>
-            <a href="${resource.link}" target="_blank" rel="noopener noreferrer" class="resource-link">Download Resources</a>
-        </div>
-    `;
-}
-
-// Display Resources with premium animations
-function displayResources(resourcesToDisplay) {
-    if (resourcesToDisplay.length === 0) {
-        resourcesGrid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);">
-                <h3 style="color: var(--text-secondary); font-size: 1.5rem;">No resources found</h3>
-                <p style="color: var(--text-light); margin-top: 1rem;">Try adjusting your search or filter</p>
-            </div>
-        `;
+    // Early return if critical elements are missing
+    if (!hamburger || !navMenu || !resourcesGrid || !searchInput || !navbar) {
+        console.error('Critical DOM elements not found');
         return;
     }
 
-    resourcesGrid.innerHTML = resourcesToDisplay.map(resource => createResourceCard(resource)).join('');
-    
-    // Re-initialize Feather icons for dynamically added content
-    if (typeof feather !== 'undefined') {
-        feather.replace();
+    function setMenuOpen(isOpen) {
+        navMenu.classList.toggle('active', isOpen);
+        hamburger.classList.toggle('active', isOpen);
+        hamburger.setAttribute('aria-expanded', String(isOpen));
+        document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
-    // Animate new resource cards with premium staggered effect
-    const resourceCards = document.querySelectorAll('.resource-card');
-    resourceCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px) scale(0.95)';
-        requestAnimationFrame(() => {
-            setTimeout(() => {
-                card.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s`;
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0) scale(1)';
-            }, 10);
+    hamburger.addEventListener('click', () => {
+        setMenuOpen(!navMenu.classList.contains('active'));
+    });
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => setMenuOpen(false));
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (!navMenu.classList.contains('active')) return;
+        setMenuOpen(false);
+        hamburger.focus();
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+            const target = document.querySelector(href);
+            if (!target) {
+                console.warn(`Target element not found for href: ${href}`);
+                return;
+            }
+            e.preventDefault();
+            const offsetTop = target.offsetTop - 80;
+            window.scrollTo({ top: Math.max(0, offsetTop), behavior: 'smooth' });
         });
     });
-}
 
-// Filter Resources with premium smooth animations
-let currentCategory = 'all';
-let currentSearchTerm = '';
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-function filterResources() {
-    let filtered = resources;
+        if (scrollTop > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
 
-    // Filter by category
-    if (currentCategory !== 'all') {
-        filtered = filtered.filter(resource => resource.category === currentCategory);
+        let current = '';
+        document.querySelectorAll('section[id]').forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.scrollY >= (sectionTop - 100)) current = section.getAttribute('id') || '';
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+        });
+    }, { passive: true });
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
-    // Filter by search term
-    if (currentSearchTerm) {
-        filtered = filtered.filter(resource => 
-            resource.title.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
-            resource.description.toLowerCase().includes(currentSearchTerm.toLowerCase())
-        );
+    function createResourceCard(resource) {
+        const categoryNames = {
+            programming: 'Programming',
+            web: 'Web Development',
+            cs: 'CS Fundamentals',
+            specialized: 'Specialized'
+        };
+
+        const categoryLabel = categoryNames[resource.category] || 'Resources';
+
+        return `
+        <div class="resource-card" data-category="${escapeHtml(resource.category)}">
+            <div class="resource-header">
+                <div class="resource-icon">
+                    <i data-feather="${escapeHtml(resource.icon)}"></i>
+                </div>
+                <h3 class="resource-title">${escapeHtml(resource.title)}</h3>
+            </div>
+            <div class="resource-category">${escapeHtml(categoryLabel)}</div>
+            <p class="resource-description">${escapeHtml(resource.description)}</p>
+            <div class="resource-meta">
+                <span><i data-feather="book" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${escapeHtml(resource.pdfs)}</span>
+                <span><i data-feather="video" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${escapeHtml(resource.videos)}</span>
+            </div>
+            <a href="${escapeHtml(resource.link)}" target="_blank" rel="noopener noreferrer" class="resource-link">Download Resources</a>
+        </div>
+    `;
     }
 
-    // Fade out current cards before displaying new ones
-    const existingCards = document.querySelectorAll('.resource-card');
-    if (existingCards.length > 0) {
-        existingCards.forEach((card, index) => {
-            card.style.transition = `opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.02}s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.02}s`;
+    function replaceFeatherIcons() {
+        if (typeof window.feather === 'undefined') {
+            console.warn('Feather icons library not loaded');
+            return;
+        }
+        try {
+            window.feather.replace();
+        } catch (error) {
+            console.error('Error replacing feather icons:', error);
+        }
+    }
+
+    function displayResources(resourcesToDisplay) {
+        if (resourcesToDisplay.length === 0) {
+            resourcesGrid.innerHTML = `
+                <div class="resources-empty" role="status" aria-live="polite">
+                    <h3>No resources found</h3>
+                    <p>Try adjusting your search or filter.</p>
+                </div>
+            `;
+            return;
+        }
+
+        resourcesGrid.innerHTML = resourcesToDisplay.map(resource => createResourceCard(resource)).join('');
+        replaceFeatherIcons();
+
+        const resourceCards = document.querySelectorAll('.resource-card');
+        resourceCards.forEach((card, index) => {
             card.style.opacity = '0';
-            card.style.transform = 'translateY(-10px) scale(0.98)';
+            card.style.transform = 'translateY(30px) scale(0.95)';
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    card.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s`;
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, 10);
+            });
         });
-        
-        setTimeout(() => {
-            displayResources(filtered);
-        }, 300);
-    } else {
-        displayResources(filtered);
     }
-}
 
-// Filter Tab Click
-filterTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        filterTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentCategory = tab.getAttribute('data-category');
-        filterResources();
+    let currentCategory = 'all';
+    let currentSearchTerm = '';
+
+    function filterResources() {
+        let filtered = resources;
+
+        if (currentCategory !== 'all') {
+            filtered = filtered.filter(resource => resource.category === currentCategory);
+        }
+
+        if (currentSearchTerm) {
+            const term = currentSearchTerm.toLowerCase();
+            filtered = filtered.filter(resource =>
+                resource.title.toLowerCase().includes(term) ||
+                resource.description.toLowerCase().includes(term)
+            );
+        }
+
+        const existingCards = document.querySelectorAll('.resource-card');
+        if (existingCards.length > 0) {
+            existingCards.forEach((card, index) => {
+                card.style.transition = `opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.02}s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.02}s`;
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(-10px) scale(0.98)';
+            });
+
+            setTimeout(() => displayResources(filtered), 300);
+        } else {
+            displayResources(filtered);
+        }
+    }
+
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentCategory = tab.getAttribute('data-category') || 'all';
+            filterResources();
+        });
     });
-});
 
-// Search Input with debounce
-let searchTimeout;
-searchInput.addEventListener('input', (e) => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-        currentSearchTerm = e.target.value;
-        filterResources();
-    }, 300);
-});
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const value = e.target && typeof e.target.value === 'string' ? e.target.value : '';
+            currentSearchTerm = value.trim();
+            filterResources();
+        }, 200);
+    });
 
-// Intersection Observer for Animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
             observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
+        });
+    }, observerOptions);
 
-// Observe elements for animation
-document.addEventListener('DOMContentLoaded', () => {
-    // Initial display of resources
-    displayResources(resources);
-
-    // Animate elements on scroll with stagger effect
+    // Animate feature cards
     const featureCards = document.querySelectorAll('.feature-card');
     featureCards.forEach((el, index) => {
         el.style.opacity = '0';
@@ -414,82 +418,30 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
         observer.observe(el);
     });
-});
 
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
-}, { once: true });
+    // Create scroll-to-top button if it doesn't exist
+    let scrollToTopBtn = document.querySelector('.scroll-to-top');
+    if (!scrollToTopBtn) {
+        scrollToTopBtn = document.createElement('button');
+        scrollToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
+        scrollToTopBtn.className = 'scroll-to-top';
+        scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
+        document.body.appendChild(scrollToTopBtn);
+    }
 
-// Scroll to top button (optional enhancement)
-const scrollToTopBtn = document.createElement('button');
-scrollToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
-scrollToTopBtn.className = 'scroll-to-top';
-scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
-scrollToTopBtn.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 999;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            scrollToTopBtn.classList.toggle('is-visible', window.scrollY > 500);
+        }, 100);
+    }, { passive: true });
 
-document.body.appendChild(scrollToTopBtn);
-
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        if (window.scrollY > 500) {
-            scrollToTopBtn.style.opacity = '1';
-            scrollToTopBtn.style.visibility = 'visible';
-        } else {
-            scrollToTopBtn.style.opacity = '0';
-            scrollToTopBtn.style.visibility = 'hidden';
-        }
-    }, 100);
-}, { passive: true });
-
-scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-});
 
-// Add hover effect to resource cards with optimized performance
-let hoveredCard = null;
-
-document.addEventListener('mouseover', (e) => {
-    const card = e.target.closest('.resource-card');
-    if (card && card !== hoveredCard) {
-        hoveredCard = card;
-        card.style.borderColor = 'var(--primary-light)';
-    }
-}, { passive: true });
-
-document.addEventListener('mouseout', (e) => {
-    const card = e.target.closest('.resource-card');
-    if (card && card === hoveredCard) {
-        card.style.borderColor = 'var(--border-color)';
-        hoveredCard = null;
-    }
-}, { passive: true });
-
-// Console message
-console.log('%cComplete Coding Resources Hub', 'color: #2563eb; font-size: 20px; font-weight: bold;');
-console.log('%cBuilt with care by Mohammad Faiz', 'color: #64748b; font-size: 14px;');
-console.log('%cGitHub: https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub', 'color: #64748b; font-size: 12px;');
+    // Initialize resources on load
+    replaceFeatherIcons();
+    displayResources(resources);
+}
