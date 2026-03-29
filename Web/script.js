@@ -8,6 +8,25 @@ if (document.readyState === 'loading') {
 function init() {
     'use strict';
 
+    // Configuration constants
+    const CONFIG = {
+        SCROLL_THRESHOLD: 50,
+        NAV_OFFSET: 80,
+        SCROLL_TO_TOP_THRESHOLD: 500,
+        SEARCH_DEBOUNCE: 300,
+        ANIMATION_DELAY: 10,
+        RIPPLE_DURATION: 600,
+        PARALLAX_MAX_SCROLL: 800,
+        PARALLAX_SPEED: 0.5
+    };
+
+    const CATEGORY_NAMES = {
+        programming: 'Programming',
+        web: 'Web Development',
+        cs: 'CS Fundamentals',
+        specialized: 'Specialized'
+    };
+
     const resources = [
     {
         id: 1,
@@ -247,7 +266,7 @@ function init() {
                 return;
             }
             e.preventDefault();
-            const offsetTop = target.offsetTop - 80;
+            const offsetTop = target.offsetTop - CONFIG.NAV_OFFSET;
             window.scrollTo({ top: Math.max(0, offsetTop), behavior: 'smooth' });
         });
     });
@@ -255,13 +274,13 @@ function init() {
     window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop > 50) navbar.classList.add('scrolled');
+        if (scrollTop > CONFIG.SCROLL_THRESHOLD) navbar.classList.add('scrolled');
         else navbar.classList.remove('scrolled');
 
         let current = '';
         document.querySelectorAll('section[id]').forEach(section => {
             const sectionTop = section.offsetTop;
-            if (window.scrollY >= (sectionTop - 100)) current = section.getAttribute('id') || '';
+            if (window.scrollY >= (sectionTop - CONFIG.NAV_OFFSET)) current = section.getAttribute('id') || '';
         });
 
         navLinks.forEach(link => {
@@ -277,14 +296,7 @@ function init() {
     }
 
     function createResourceCard(resource) {
-        const categoryNames = {
-            programming: 'Programming',
-            web: 'Web Development',
-            cs: 'CS Fundamentals',
-            specialized: 'Specialized'
-        };
-
-        const categoryLabel = categoryNames[resource.category] || 'Resources';
+        const categoryLabel = CATEGORY_NAMES[resource.category] || 'Resources';
 
         return `
         <div class="resource-card" data-category="${escapeHtml(resource.category)}">
@@ -348,7 +360,7 @@ function init() {
                     card.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.08}s`;
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0) scale(1)';
-                }, 10);
+                }, CONFIG.ANIMATION_DELAY);
             });
         });
 
@@ -398,7 +410,6 @@ function init() {
     });
 
     let searchTimeout;
-    const originalSearchHandler = searchInput.addEventListener;
 
     const observerOptions = {
         threshold: 0.1,
@@ -437,7 +448,7 @@ function init() {
     window.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            scrollToTopBtn.classList.toggle('is-visible', window.scrollY > 500);
+            scrollToTopBtn.classList.toggle('is-visible', window.scrollY > CONFIG.SCROLL_TO_TOP_THRESHOLD);
         }, 100);
     }, { passive: true });
 
@@ -467,7 +478,7 @@ function init() {
                 
                 this.appendChild(ripple);
                 
-                setTimeout(() => ripple.remove(), 600);
+                setTimeout(() => ripple.remove(), CONFIG.RIPPLE_DURATION);
             });
         });
     }
@@ -487,12 +498,11 @@ function init() {
             currentSearchTerm = value.trim();
             filterResources();
             
-            // Remove loading state
             searchLoadingTimeout = setTimeout(() => {
                 resourcesGrid.style.opacity = '1';
                 resourcesGrid.style.pointerEvents = 'auto';
             }, 100);
-        }, 300);
+        }, CONFIG.SEARCH_DEBOUNCE);
     });
 
     // Add smooth scroll progress indicator
@@ -514,10 +524,9 @@ function init() {
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     const scrolled = window.scrollY;
-                    if (scrolled < 800) {
-                        // Use CSS custom property instead of direct style manipulation
-                        hero.style.setProperty('--scroll-offset', scrolled * 0.5);
-                        hero.style.setProperty('--scroll-opacity', 1 - (scrolled / 800));
+                    if (scrolled < CONFIG.PARALLAX_MAX_SCROLL) {
+                        hero.style.setProperty('--scroll-offset', scrolled * CONFIG.PARALLAX_SPEED);
+                        hero.style.setProperty('--scroll-opacity', 1 - (scrolled / CONFIG.PARALLAX_MAX_SCROLL));
                     }
                     ticking = false;
                 });
@@ -532,27 +541,6 @@ function init() {
         document.body.style.transition = 'opacity 0.6s ease';
         document.body.style.opacity = '1';
     }, 100);
-
-    // Toast notification system
-    function showToast(message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.innerHTML = `
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                ${type === 'success' ? '<polyline points="20 6 9 17 4 12"></polyline>' : 
-                  type === 'error' ? '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>' :
-                  '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>'}
-            </svg>
-            <span>${message}</span>
-        `;
-        document.body.appendChild(toast);
-        
-        setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
 
     // Add copy link functionality to resource cards
     document.addEventListener('click', (e) => {
