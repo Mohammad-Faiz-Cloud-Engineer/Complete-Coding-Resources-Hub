@@ -136,6 +136,32 @@ body {
     -moz-osx-font-smoothing: grayscale;
     opacity: 0;
     animation: fadeIn 0.6s ease forwards;
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Allow text selection for specific elements */
+p, h1, h2, h3, h4, h5, h6, span, li, a {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Disable text selection on interactive elements */
+button, .btn-primary, .btn-secondary, .filter-tab, .hamburger, .nav-link {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Disable pull-to-refresh */
+html, body {
+    overscroll-behavior-y: contain;
 }
 
 /* Page load animation */
@@ -145,6 +171,11 @@ body {
 
 .page-loaded {
     animation: fadeIn 0.6s ease forwards;
+}
+
+/* Disable context menu styling */
+.no-context-menu {
+    pointer-events: none;
 }
 
 /* Smooth scrollbar styling */
