@@ -5,6 +5,161 @@ if (document.readyState === 'loading') {
     init();
 }
 
+// Service Worker Registration and PWA Support
+let deferredPrompt;
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+                console.log('[PWA] Service Worker registered:', registration.scope);
+                
+                // Check for updates every 60 seconds
+                setInterval(() => {
+                    registration.update();
+                }, 60000);
+                
+                // Listen for updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New version available
+                            if (confirm('New version available! Reload to update?')) {
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+            })
+            .catch((error) => {
+                console.error('[PWA] Service Worker registration failed:', error);
+            });
+    });
+    
+    // Handle service worker updates
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+    });
+}
+
+// PWA Install Prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Show install banner
+    const installBanner = document.getElementById('pwaInstallBanner');
+    if (installBanner) {
+        installBanner.classList.add('show');
+    }
+});
+
+// Handle PWA install button
+document.addEventListener('DOMContentLoaded', () => {
+    const installBtn = document.getElementById('pwaInstallBtn');
+    const dismissBtn = document.getElementById('pwaDismissBtn');
+    const installBanner = document.getElementById('pwaInstallBanner');
+    
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('[PWA] User choice:', outcome);
+                deferredPrompt = null;
+                installBanner.classList.remove('show');
+            }
+        });
+    }
+    
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', () => {
+            installBanner.classList.remove('show');
+        });
+    }
+});
+
+// Detect if running as PWA
+window.addEventListener('load', () => {
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                  window.navigator.standalone === true;
+    
+    if (isPWA) {
+        console.log('[PWA] Running as installed app');
+        document.body.classList.add('pwa-mode');
+    }
+});
+
+// Disable Right Click
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+});
+
+// Disable Text Selection on specific elements (already handled in CSS)
+// Additional JavaScript prevention for extra security
+document.addEventListener('selectstart', (e) => {
+    if (e.target.tagName === 'BUTTON' || 
+        e.target.classList.contains('btn-primary') ||
+        e.target.classList.contains('btn-secondary') ||
+        e.target.classList.contains('filter-tab')) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable keyboard shortcuts that might interfere
+document.addEventListener('keydown', (e) => {
+    // Disable F12 (DevTools)
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+I (DevTools)
+    if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+U (View Source)
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+S (Save)
+    if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Disable pull-to-refresh on mobile
+let touchStartY = 0;
+document.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    const touchY = e.touches[0].clientY;
+    const touchDiff = touchY - touchStartY;
+    
+    // Prevent pull-to-refresh if at top of page
+    if (touchDiff > 0 && window.scrollY === 0) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
 // Hide page loader when everything is ready
 window.addEventListener('load', () => {
     const loader = document.getElementById('pageLoader');
