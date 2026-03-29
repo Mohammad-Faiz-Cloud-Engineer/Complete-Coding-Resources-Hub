@@ -11,7 +11,7 @@ let deferredPrompt;
 // Register Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('./service-worker.js')
             .then((registration) => {
                 // Check for updates every 60 seconds
                 setInterval(() => {
@@ -590,10 +590,17 @@ function init() {
     // Animate feature cards
     const featureCards = document.querySelectorAll('.feature-card');
     featureCards.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
-        observer.observe(el);
+        // Set initial state only if IntersectionObserver is supported
+        if ('IntersectionObserver' in window) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
+            observer.observe(el);
+        } else {
+            // Fallback: make visible immediately if no IntersectionObserver
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }
     });
 
     // Create scroll-to-top button if it doesn't exist
