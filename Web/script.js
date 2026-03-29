@@ -13,8 +13,6 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
             .then((registration) => {
-                console.log('[PWA] Service Worker registered:', registration.scope);
-                
                 // Check for updates every 60 seconds
                 setInterval(() => {
                     registration.update();
@@ -68,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                console.log('[PWA] User choice:', outcome);
                 deferredPrompt = null;
                 installBanner.classList.remove('show');
             }
@@ -88,7 +85,6 @@ window.addEventListener('load', () => {
                   window.navigator.standalone === true;
     
     if (isPWA) {
-        console.log('[PWA] Running as installed app');
         document.body.classList.add('pwa-mode');
     }
 });
