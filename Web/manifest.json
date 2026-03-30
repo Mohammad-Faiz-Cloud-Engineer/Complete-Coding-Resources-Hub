@@ -2,12 +2,12 @@
   "name": "Complete Coding Resources Hub",
   "short_name": "Coding Hub",
   "description": "Comprehensive programming notes, video courses, and structured learning paths",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1d4ed8",
   "orientation": "natural",
-  "scope": "/",
+  "scope": "./",
   "icons": [
     {
       "src": "favicon.svg",
