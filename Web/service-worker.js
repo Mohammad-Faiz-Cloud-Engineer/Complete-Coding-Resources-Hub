@@ -5,12 +5,12 @@ const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
 // Assets to cache on install
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/favicon.svg',
-  '/manifest.json'
+  './',
+  './index.html',
+  './styles.css',
+  './script.js',
+  './favicon.svg',
+  './manifest.json'
 ];
 
 // Install event - cache static assets
@@ -84,7 +84,7 @@ self.addEventListener('fetch', (event) => {
             
             // If not in cache, return offline page or error
             if (request.destination === 'document') {
-              return caches.match('/index.html');
+              return caches.match('./index.html');
             }
             
             return new Response('Network error', {
