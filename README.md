@@ -4,7 +4,7 @@
 
 [![GitHub Stars](https://img.shields.io/github/stars/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub?style=social)](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![Website](https://img.shields.io/badge/Website-Live-brightgreen)](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
 
 **Live Website:** [https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
@@ -46,23 +46,23 @@ All PDF materials are available for free download via **GitHub Releases**. Each 
 
 | Topic | Content | Download Link |
 |-------|---------|---------------|
-| **DSA Complete Pack** | 4 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-dsa) |
-| **Python Bundle** | 6 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-python) |
-| **Java Bundle** | 3 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-java) |
-| **SQL & Database** | 4 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-sql) |
-| **Interview Prep** | 2 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-interview) |
-| **Web Development** | 3 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-webdev) |
-| **JavaScript** | 2 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-javascript) |
+| **DSA Complete Pack** | 5 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-dsa) |
+| **Python Bundle** | 10 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-python) |
+| **Java Bundle** | 6 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-java) |
+| **SQL & Database** | 8 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-sql) |
+| **Interview Prep** | 3 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-interview) |
+| **Web Development** | 10 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-webdev) |
+| **JavaScript** | 4 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-javascript) |
 | **ReactJS** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-react) |
 | **NodeJS** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-nodejs) |
-| **C++ Programming** | 3 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-cpp) |
-| **C Programming** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-c) |
+| **C++ Programming** | 4 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-cpp) |
+| **C Programming** | 4 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-c) |
 | **Operating System** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-os) |
 | **Computer Networking** | 2 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-networking) |
 | **OOP Concepts** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-oop) |
 | **Machine Learning** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-ml) |
-| **Android Development** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android) |
-| **PHP Programming** | 1 PDF + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-php) |
+| **Android Development** | 3 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-android) |
+| **PHP Programming** | 2 PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-php) |
 | **Large Language Model** | Multiple PDFs + Video Courses | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-llm) |
 | **Resume Template** | 1 PDF + Career Resources | [Download](https://github.com/Mohammad-Faiz-Cloud-Engineer/Complete-Coding-Resources-Hub/releases/tag/v1.0-resume) |
 
@@ -283,7 +283,7 @@ If you find this repository helpful:
 
 **Website:** [https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/](https://mohammad-faiz-cloud-engineer.github.io/Complete-Coding-Resources-Hub/)
 
-**Last Updated:** January 2026
+**Last Updated:** April 2026
 
 [Back to Top](#complete-coding-resources-hub)
 
