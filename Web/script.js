@@ -5,29 +5,40 @@ if (document.readyState === 'loading') {
     init();
 }
 
-// Service Worker Registration and PWA Support
 let deferredPrompt;
+let shouldReloadForUpdate = false;
+let hasReloadedForUpdate = false;
 
-// Register Service Worker
+const SERVICE_WORKER_UPDATE_INTERVAL = 30 * 60 * 1000;
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
             .then((registration) => {
-                // Check for updates every 60 seconds
-                setInterval(() => {
-                    registration.update();
-                }, 60000);
-                
-                // Listen for updates
+                window.setInterval(() => {
+                    if (document.visibilityState !== 'visible') {
+                        return;
+                    }
+
+                    registration.update().catch((error) => {
+                        console.warn('[PWA] Service Worker update check failed:', error);
+                    });
+                }, SERVICE_WORKER_UPDATE_INTERVAL);
+
                 registration.addEventListener('updatefound', () => {
                     const newWorker = registration.installing;
+                    if (!newWorker) {
+                        return;
+                    }
+
                     newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // New version available
-                            if (confirm('New version available! Reload to update?')) {
-                                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                window.location.reload();
-                            }
+                        if (newWorker.state !== 'installed' || !navigator.serviceWorker.controller) {
+                            return;
+                        }
+
+                        shouldReloadForUpdate = window.confirm('New version available! Reload to update?');
+                        if (shouldReloadForUpdate) {
+                            newWorker.postMessage({ type: 'SKIP_WAITING' });
                         }
                     });
                 });
@@ -36,128 +47,74 @@ if ('serviceWorker' in navigator) {
                 console.error('[PWA] Service Worker registration failed:', error);
             });
     });
-    
-    // Handle service worker updates
+
     navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (hasReloadedForUpdate || !shouldReloadForUpdate) {
+            return;
+        }
+
+        hasReloadedForUpdate = true;
         window.location.reload();
     });
 }
 
-// PWA Install Prompt
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // Show install banner
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+
     const installBanner = document.getElementById('pwaInstallBanner');
     if (installBanner) {
         installBanner.classList.add('show');
     }
 });
 
-// Handle PWA install button
+window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+
+    const installBanner = document.getElementById('pwaInstallBanner');
+    if (installBanner) {
+        installBanner.classList.remove('show');
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const installBtn = document.getElementById('pwaInstallBtn');
     const dismissBtn = document.getElementById('pwaDismissBtn');
     const installBanner = document.getElementById('pwaInstallBanner');
-    
+
     if (installBtn) {
         installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
+            if (!deferredPrompt) {
+                return;
+            }
+
+            try {
                 deferredPrompt.prompt();
                 await deferredPrompt.userChoice;
+            } finally {
                 deferredPrompt = null;
-                installBanner.classList.remove('show');
+                if (installBanner) {
+                    installBanner.classList.remove('show');
+                }
             }
         });
     }
-    
-    if (dismissBtn) {
+
+    if (dismissBtn && installBanner) {
         dismissBtn.addEventListener('click', () => {
             installBanner.classList.remove('show');
         });
     }
 });
 
-// Detect if running as PWA
 window.addEventListener('load', () => {
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
-                  window.navigator.standalone === true;
-    
-    if (isPWA) {
+    const isPwaDisplayMode = window.matchMedia('(display-mode: standalone)').matches;
+    const isLegacyStandalone = typeof window.navigator.standalone === 'boolean' && window.navigator.standalone;
+
+    if (isPwaDisplayMode || isLegacyStandalone) {
         document.body.classList.add('pwa-mode');
     }
-});
 
-// Disable Right Click
-document.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-    return false;
-});
-
-// Disable Text Selection on specific elements (already handled in CSS)
-// Additional JavaScript prevention for extra security
-document.addEventListener('selectstart', (e) => {
-    if (e.target.tagName === 'BUTTON' || 
-        e.target.classList.contains('btn-primary') ||
-        e.target.classList.contains('btn-secondary') ||
-        e.target.classList.contains('filter-tab')) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-// Disable keyboard shortcuts that might interfere
-document.addEventListener('keydown', (e) => {
-    // Disable F12 (DevTools)
-    if (e.key === 'F12') {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Disable Ctrl+Shift+I (DevTools)
-    if (e.ctrlKey && e.shiftKey && e.key === 'I') {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Disable Ctrl+Shift+J (Console)
-    if (e.ctrlKey && e.shiftKey && e.key === 'J') {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Disable Ctrl+U (View Source)
-    if (e.ctrlKey && e.key === 'u') {
-        e.preventDefault();
-        return false;
-    }
-    
-    // Disable Ctrl+S (Save)
-    if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-        return false;
-    }
-});
-
-// Disable pull-to-refresh on mobile
-let touchStartY = 0;
-document.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.addEventListener('touchmove', (e) => {
-    const touchY = e.touches[0].clientY;
-    const touchDiff = touchY - touchStartY;
-    
-    // Prevent pull-to-refresh if at top of page
-    if (touchDiff > 0 && window.scrollY === 0) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// Hide page loader when everything is ready
-window.addEventListener('load', () => {
     const loader = document.getElementById('pageLoader');
     if (loader) {
         setTimeout(() => {
@@ -177,7 +134,6 @@ function init() {
         SCROLL_TO_TOP_THRESHOLD: 500,
         SEARCH_DEBOUNCE: 300,
         ANIMATION_DELAY: 10,
-        RIPPLE_DURATION: 600,
         PARALLAX_MAX_SCROLL: 800,
         PARALLAX_SPEED: 0.5
     };
@@ -451,51 +407,77 @@ function init() {
         });
     }, { passive: true });
 
+    const ICONS = {
+        'book-open': '<path d="M2 5.5A2.5 2.5 0 0 1 4.5 3H10a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4.5A2.5 2.5 0 0 0 2 18.5z"></path><path d="M22 5.5A2.5 2.5 0 0 0 19.5 3H14a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h5.5a2.5 2.5 0 0 1 2.5 2.5z"></path>',
+        book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 17A2.5 2.5 0 0 0 4 19.5V5a2 2 0 0 1 2-2h14v14"></path>',
+        briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="3" y1="13" x2="21" y2="13"></line>',
+        code: '<polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>',
+        coffee: '<path d="M18 8h1a3 3 0 0 1 0 6h-1"></path><path d="M2 8h16v5a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"></path><line x1="6" y1="3" x2="6" y2="6"></line><line x1="10" y1="3" x2="10" y2="6"></line><line x1="14" y1="3" x2="14" y2="6"></line>',
+        cpu: '<rect x="7" y="7" width="10" height="10" rx="2"></rect><rect x="10" y="10" width="4" height="4"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line>',
+        database: '<ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v8c0 1.66 3.58 3 8 3s8-1.34 8-3V5"></path><path d="M4 9c0 1.66 3.58 3 8 3s8-1.34 8-3"></path>',
+        file: '<path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline>',
+        'file-text': '<path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line>',
+        globe: '<circle cx="12" cy="12" r="9"></circle><line x1="3" y1="12" x2="21" y2="12"></line><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path>',
+        layers: '<polygon points="12 2 3 7 12 12 21 7 12 2"></polygon><polyline points="3 12 12 17 21 12"></polyline><polyline points="3 17 12 22 21 17"></polyline>',
+        'message-circle': '<path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H7l-4 3 1.5-5.5A8.5 8.5 0 1 1 21 11.5z"></path>',
+        monitor: '<rect x="3" y="4" width="18" height="13" rx="2"></rect><line x1="8" y1="20" x2="16" y2="20"></line><line x1="12" y1="17" x2="12" y2="20"></line>',
+        server: '<rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><line x1="7" y1="7" x2="7.01" y2="7"></line><line x1="7" y1="17" x2="7.01" y2="17"></line><line x1="11" y1="7" x2="17" y2="7"></line><line x1="11" y1="17" x2="17" y2="17"></line>',
+        smartphone: '<rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line>',
+        target: '<circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>',
+        terminal: '<polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line>',
+        'trending-up': '<polyline points="3 17 9 11 13 15 21 7"></polyline><polyline points="14 7 21 7 21 14"></polyline>',
+        video: '<rect x="2" y="6" width="14" height="12" rx="2"></rect><polygon points="16 10 22 7 22 17 16 14"></polygon>',
+        wifi: '<path d="M2 8a15 15 0 0 1 20 0"></path><path d="M5 12a10 10 0 0 1 14 0"></path><path d="M8.5 16a5 5 0 0 1 7 0"></path><circle cx="12" cy="20" r="1"></circle>',
+        zap: '<polygon points="13 2 4 14 11 14 9 22 20 9 13 9 13 2"></polygon>'
+    };
+
     function escapeHtml(text) {
         const div = document.createElement('div');
-        div.textContent = text;
+        div.textContent = String(text);
         return div.innerHTML;
+    }
+
+    function sanitizeResourceLink(link) {
+        try {
+            const parsedUrl = new URL(link);
+            return parsedUrl.protocol === 'https:' ? parsedUrl.href : '#';
+        } catch (error) {
+            console.warn('Ignoring invalid resource URL:', link, error);
+            return '#';
+        }
+    }
+
+    function createIconMarkup(iconName, className = 'resource-icon-svg', size = 24) {
+        const iconBody = ICONS[iconName] || ICONS.file;
+        return `<svg class="${className}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${iconBody}</svg>`;
     }
 
     function createResourceCard(resource) {
         const categoryLabel = CATEGORY_NAMES[resource.category] || 'Resources';
+        const resourceLink = sanitizeResourceLink(resource.link);
 
         return `
         <div class="resource-card" data-category="${escapeHtml(resource.category)}">
             <div class="resource-header">
                 <div class="resource-icon">
-                    <i data-feather="${escapeHtml(resource.icon)}"></i>
+                    ${createIconMarkup(resource.icon)}
                 </div>
                 <h3 class="resource-title">${escapeHtml(resource.title)}</h3>
             </div>
             <div class="resource-category">${escapeHtml(categoryLabel)}</div>
             <p class="resource-description">${escapeHtml(resource.description)}</p>
             <div class="resource-meta">
-                <span><i data-feather="book" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${escapeHtml(resource.pdfs)}</span>
-                <span><i data-feather="video" style="width: 16px; height: 16px; vertical-align: middle;"></i> ${escapeHtml(resource.videos)}</span>
+                <span>${createIconMarkup('book', 'resource-meta-icon', 16)} ${escapeHtml(resource.pdfs)}</span>
+                <span>${createIconMarkup('video', 'resource-meta-icon', 16)} ${escapeHtml(resource.videos)}</span>
             </div>
-            <a href="${escapeHtml(resource.link)}" target="_blank" rel="noopener noreferrer" class="resource-link">Download Resources</a>
+            <a href="${escapeHtml(resourceLink)}" target="_blank" rel="noopener noreferrer" class="resource-link">Download Resources</a>
         </div>
     `;
     }
 
-    function replaceFeatherIcons() {
-        if (typeof window.feather === 'undefined') {
-            console.warn('Feather icons library not loaded - using fallback');
-            // Add fallback class to show we're missing icons
-            document.body.classList.add('no-feather-icons');
-            return;
-        }
-        try {
-            window.feather.replace();
-            document.body.classList.remove('no-feather-icons');
-        } catch (error) {
-            console.error('Error replacing feather icons:', error);
-            document.body.classList.add('no-feather-icons');
-        }
-    }
-
     function displayResources(resourcesToDisplay) {
+        resourcesGrid.removeAttribute('aria-busy');
+
         if (resourcesToDisplay.length === 0) {
             resourcesGrid.innerHTML = `
                 <div class="resources-empty" role="status" aria-live="polite">
@@ -511,7 +493,6 @@ function init() {
         }
 
         resourcesGrid.innerHTML = resourcesToDisplay.map(resource => createResourceCard(resource)).join('');
-        replaceFeatherIcons();
 
         const resourceCards = document.querySelectorAll('.resource-card');
         resourceCards.forEach((card, index) => {
@@ -525,13 +506,20 @@ function init() {
                 }, CONFIG.ANIMATION_DELAY);
             });
         });
+    }
 
-        // Add ripple effect to cards
-        addRippleEffect();
+    function setActiveFilterTab(selectedTab) {
+        filterTabs.forEach(tab => {
+            const isSelected = tab === selectedTab;
+            tab.classList.toggle('active', isSelected);
+            tab.setAttribute('aria-selected', String(isSelected));
+            tab.setAttribute('tabindex', isSelected ? '0' : '-1');
+        });
     }
 
     let currentCategory = 'all';
     let currentSearchTerm = '';
+    let filterTransitionTimeout;
 
     function filterResources() {
         let filtered = resources;
@@ -548,6 +536,9 @@ function init() {
             );
         }
 
+        clearTimeout(filterTransitionTimeout);
+        resourcesGrid.setAttribute('aria-busy', 'true');
+
         const existingCards = document.querySelectorAll('.resource-card');
         if (existingCards.length > 0) {
             existingCards.forEach((card, index) => {
@@ -556,58 +547,59 @@ function init() {
                 card.style.transform = 'translateY(-10px) scale(0.98)';
             });
 
-            setTimeout(() => displayResources(filtered), 300);
-        } else {
-            displayResources(filtered);
+            filterTransitionTimeout = window.setTimeout(() => displayResources(filtered), 300);
+            return;
         }
+
+        displayResources(filtered);
     }
 
     filterTabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            filterTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+            setActiveFilterTab(tab);
             currentCategory = tab.getAttribute('data-category') || 'all';
             filterResources();
         });
     });
 
     let searchTimeout;
+    const supportsIntersectionObserver = 'IntersectionObserver' in window;
 
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    const observer = supportsIntersectionObserver
+        ? new IntersectionObserver((entries, activeObserver) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            observer.unobserve(entry.target);
-        });
-    }, observerOptions);
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                activeObserver.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        })
+        : null;
 
-    // Animate feature cards
     const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach((el, index) => {
-        // Set initial state only if IntersectionObserver is supported
-        if ('IntersectionObserver' in window) {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
-            observer.observe(el);
-        } else {
-            // Fallback: make visible immediately if no IntersectionObserver
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
+    featureCards.forEach((card, index) => {
+        if (!observer) {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+            return;
         }
+
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
+        observer.observe(card);
     });
 
-    // Create scroll-to-top button if it doesn't exist
     let scrollToTopBtn = document.querySelector('.scroll-to-top');
     if (!scrollToTopBtn) {
         scrollToTopBtn = document.createElement('button');
-        scrollToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
+        scrollToTopBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>';
         scrollToTopBtn.className = 'scroll-to-top';
         scrollToTopBtn.setAttribute('aria-label', 'Scroll to top');
         document.body.appendChild(scrollToTopBtn);
@@ -625,160 +617,129 @@ function init() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Initialize resources on load
-    replaceFeatherIcons();
     displayResources(resources);
 
-    // Add ripple effect to interactive elements
-    function addRippleEffect() {
-        const cards = document.querySelectorAll('.resource-card, .feature-card');
-        cards.forEach(card => {
-            card.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), CONFIG.RIPPLE_DURATION);
-            });
-        });
-    }
-
-    // Add loading state to search
     let searchLoadingTimeout;
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener('input', (event) => {
         clearTimeout(searchTimeout);
         clearTimeout(searchLoadingTimeout);
-        
-        // Show loading state
+
         resourcesGrid.style.opacity = '0.5';
         resourcesGrid.style.pointerEvents = 'none';
-        
+
         searchTimeout = setTimeout(() => {
-            const value = e.target && typeof e.target.value === 'string' ? e.target.value : '';
+            const value = event.target && typeof event.target.value === 'string' ? event.target.value : '';
             currentSearchTerm = value.trim();
             filterResources();
-            
+
             searchLoadingTimeout = setTimeout(() => {
                 resourcesGrid.style.opacity = '1';
                 resourcesGrid.style.pointerEvents = 'auto';
-            }, 100);
+            }, 120);
         }, CONFIG.SEARCH_DEBOUNCE);
     });
 
-    // Add smooth scroll progress indicator
     const progressBar = document.createElement('div');
     progressBar.className = 'scroll-progress';
     document.body.appendChild(progressBar);
 
     window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (window.scrollY / windowHeight) * 100;
-        progressBar.style.width = scrolled + '%';
+        const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = pageHeight > 0 ? (window.scrollY / pageHeight) * 100 : 0;
+        progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
     }, { passive: true });
 
-    // Add parallax effect to hero using CSS transform (better performance)
     const hero = document.querySelector('.hero');
     if (hero) {
         let ticking = false;
         window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    const scrolled = window.scrollY;
-                    if (scrolled < CONFIG.PARALLAX_MAX_SCROLL) {
-                        hero.style.setProperty('--scroll-offset', scrolled * CONFIG.PARALLAX_SPEED);
-                        hero.style.setProperty('--scroll-opacity', 1 - (scrolled / CONFIG.PARALLAX_MAX_SCROLL));
-                    }
-                    ticking = false;
-                });
-                ticking = true;
+            if (ticking) {
+                return;
             }
+
+            window.requestAnimationFrame(() => {
+                const scrolled = window.scrollY;
+                const limitedScroll = Math.min(scrolled, CONFIG.PARALLAX_MAX_SCROLL);
+                hero.style.setProperty('--scroll-offset', limitedScroll * CONFIG.PARALLAX_SPEED);
+                hero.style.setProperty('--scroll-opacity', 1 - (limitedScroll / CONFIG.PARALLAX_MAX_SCROLL));
+                ticking = false;
+            });
+
+            ticking = true;
         }, { passive: true });
     }
 
-    // Animate sections on scroll
     const animateOnScroll = () => {
         const sections = document.querySelectorAll('.section-header');
-        const observer = new IntersectionObserver((entries) => {
+        if (!supportsIntersectionObserver) {
+            sections.forEach(section => section.classList.add('animate-in'));
+            return;
+        }
+
+        const sectionObserver = new IntersectionObserver((entries, activeObserver) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target);
+                if (!entry.isIntersecting) {
+                    return;
                 }
+
+                entry.target.classList.add('animate-in');
+                activeObserver.unobserve(entry.target);
             });
         }, {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
         });
 
-        sections.forEach(section => observer.observe(section));
+        sections.forEach(section => sectionObserver.observe(section));
     };
 
     animateOnScroll();
 
-    // Remove initial page load animation styles
     setTimeout(() => {
         document.body.style.removeProperty('opacity');
         document.body.style.removeProperty('transition');
     }, 600);
 
-    // Add copy link functionality to resource cards
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('.resource-card')) {
-            const card = e.target.closest('.resource-card');
-            const link = card.querySelector('.resource-link');
-            if (link && e.target !== link && !e.target.closest('.resource-link')) {
-                // Optional: Add visual feedback when clicking card
-                card.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    card.style.transform = '';
-                }, 100);
-            }
-        }
-    });
-
-    // Add keyboard navigation for filter tabs
     filterTabs.forEach((tab, index) => {
-        tab.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') {
-                e.preventDefault();
+        tab.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
                 const nextTab = filterTabs[index + 1] || filterTabs[0];
                 nextTab.focus();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                const prevTab = filterTabs[index - 1] || filterTabs[filterTabs.length - 1];
-                prevTab.focus();
-            } else if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                const previousTab = filterTabs[index - 1] || filterTabs[filterTabs.length - 1];
+                previousTab.focus();
+            } else if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
                 tab.click();
             }
         });
     });
 
-    // Add search clear button
+    const searchContainer = searchInput.parentElement;
+    if (!searchContainer) {
+        return;
+    }
+
     const searchClearBtn = document.createElement('button');
     searchClearBtn.className = 'search-clear';
-    searchClearBtn.innerHTML = '×';
+    searchClearBtn.type = 'button';
+    searchClearBtn.textContent = '×';
     searchClearBtn.setAttribute('aria-label', 'Clear search');
-    searchClearBtn.style.display = 'none';
-    searchInput.parentElement.appendChild(searchClearBtn);
+    searchClearBtn.hidden = true;
+    searchContainer.appendChild(searchClearBtn);
 
     searchInput.addEventListener('input', () => {
-        searchClearBtn.style.display = searchInput.value ? 'flex' : 'none';
+        searchClearBtn.hidden = searchInput.value.length === 0;
     });
 
     searchClearBtn.addEventListener('click', () => {
         searchInput.value = '';
         currentSearchTerm = '';
-        searchClearBtn.style.display = 'none';
+        searchClearBtn.hidden = true;
+        resourcesGrid.style.opacity = '1';
+        resourcesGrid.style.pointerEvents = 'auto';
         filterResources();
         searchInput.focus();
     });
