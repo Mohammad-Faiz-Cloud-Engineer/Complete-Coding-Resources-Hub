@@ -2,7 +2,7 @@
   "name": "Complete Coding Resources Hub",
   "short_name": "Coding Hub",
   "description": "Comprehensive programming notes, video courses, and structured learning paths",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1d4ed8",
@@ -13,19 +13,19 @@
       "src": "favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "categories": ["education", "productivity"],
@@ -35,7 +35,7 @@
       "name": "Browse Resources",
       "short_name": "Resources",
       "description": "Browse all coding resources",
-      "url": "/#resources",
+      "url": "./index.html#resources",
       "icons": []
     }
   ],
