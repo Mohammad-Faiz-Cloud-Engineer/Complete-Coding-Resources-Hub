@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Complete Coding Resources Hub - Comprehensive programming notes, video courses, and learning materials">
     <meta name="keywords" content="programming, coding, tutorials, DSA, Python, Java, JavaScript, Web Development, LLM, AI, Machine Learning">
     <meta name="theme-color" content="#1d4ed8">
@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Coding Hub">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://unpkg.com; connect-src 'self' https://unpkg.com; upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; manifest-src 'self'; worker-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; upgrade-insecure-requests">
     <title>Complete Coding Resources Hub</title>
     
     <!-- PWA Manifest -->
@@ -18,22 +18,17 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="apple-touch-icon" href="icon-192.png">
     
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com">
-    
     <!-- Preload critical resources -->
     <link rel="preload" href="styles.css" as="style">
     <link rel="preload" href="script.js" as="script">
     
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons@4.29.2/dist/feather.min.js" defer></script>
-    
     <style>
         /* Inline critical loading styles */
         .page-loader {
@@ -150,7 +145,7 @@
         }
     </style>
 </head>
-<body class="no-select">
+<body>
     <!-- PWA Install Banner -->
     <div class="pwa-install-banner" id="pwaInstallBanner">
         <div class="pwa-banner-content">
@@ -355,17 +350,17 @@
             </div>
             
             <!-- Filter Tabs -->
-            <div class="filter-tabs">
-                <button class="filter-tab active" data-category="all">All Resources</button>
-                <button class="filter-tab" data-category="programming">Programming</button>
-                <button class="filter-tab" data-category="web">Web Development</button>
-                <button class="filter-tab" data-category="cs">CS Fundamentals</button>
-                <button class="filter-tab" data-category="specialized">Specialized</button>
+            <div class="filter-tabs" role="tablist" aria-label="Resource categories">
+                <button class="filter-tab active" type="button" role="tab" aria-selected="true" aria-controls="resourcesGrid" tabindex="0" data-category="all">All Resources</button>
+                <button class="filter-tab" type="button" role="tab" aria-selected="false" aria-controls="resourcesGrid" tabindex="-1" data-category="programming">Programming</button>
+                <button class="filter-tab" type="button" role="tab" aria-selected="false" aria-controls="resourcesGrid" tabindex="-1" data-category="web">Web Development</button>
+                <button class="filter-tab" type="button" role="tab" aria-selected="false" aria-controls="resourcesGrid" tabindex="-1" data-category="cs">CS Fundamentals</button>
+                <button class="filter-tab" type="button" role="tab" aria-selected="false" aria-controls="resourcesGrid" tabindex="-1" data-category="specialized">Specialized</button>
             </div>
 
             <!-- Search Bar -->
             <div class="search-container">
-                <input type="search" id="searchInput" class="search-input" placeholder="Search resources..." autocomplete="off" aria-label="Search resources">
+                <input type="search" id="searchInput" class="search-input" placeholder="Search resources..." autocomplete="off" enterkeyhint="search" aria-label="Search resources">
                 <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
                     <path d="m21 21-4.35-4.35"></path>
@@ -373,7 +368,7 @@
             </div>
 
             <!-- Resources Grid -->
-            <div class="resources-grid" id="resourcesGrid">
+            <div class="resources-grid" id="resourcesGrid" aria-live="polite">
                 <!-- Resources will be dynamically loaded here -->
             </div>
         </div>
@@ -427,7 +422,7 @@
                         <h3>Repository Stats</h3>
                         <div class="stat-item">
                             <span class="stat-label">Total Resources</span>
-                            <span class="stat-value">38+ PDFs</span>
+                            <span class="stat-value">60+ PDFs</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Video Courses</span>
